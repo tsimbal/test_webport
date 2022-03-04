@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+    <component :is="layout">
+      <router-view />
+    </component>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    layout() {
+      return this.$route.meta.layout || 'default-layout'
+    },
+  },
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -16,7 +24,11 @@
   text-align: center;
   color: #2c3e50;
 }
-
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
 nav {
   padding: 30px;
 
