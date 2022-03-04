@@ -1,0 +1,13 @@
+@use 'default';
+
+.post-elem {
+  text-align: left;
+  border: 1px solid #000;
+  margin: 5px;
+  padding: 5px 10px;
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

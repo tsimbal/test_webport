@@ -32,6 +32,11 @@ export default {
       elPerPage: 10,
     }
   },
+  watch: {
+    currentPage(val) {
+      if (val) window.scroll(0, 0)
+    },
+  },
   computed: {
     ...mapGetters({ list: 'getList' }),
     pages() {

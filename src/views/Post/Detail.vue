@@ -1,21 +1,24 @@
 <template>
-  <div>
-    <div class="post-elem">
-      <h3 class="title">{{ post.title }}</h3>
-      <p class="user-name" @click="showModal = true">
-        <i>{{ user.email }}</i>
-      </p>
-      <p class="description">{{ post.body }}</p>
+  <div class="wrap">
+    <loader v-if="loading"></loader>
+    <div v-else class="wrap-detail">
+      <div class="post-elem">
+        <h3 class="title">{{ post.title }}</h3>
+        <p class="user-name" @click="setModal(true)">
+          <i>{{ user.name }}</i>
+        </p>
+        <p class="description">{{ post.body }}</p>
+      </div>
+      <h2>Comments</h2>
+      <ul class="comment-list">
+        <comments
+          v-for="(comment, index) of comments"
+          :key="index"
+          :comment="comment"
+        ></comments>
+      </ul>
+      <user-modal v-if="showModal" @close="setModal(false)"></user-modal>
     </div>
-    <h2>Comments</h2>
-    <ul class="comment-list">
-      <comments
-        v-for="(comment, index) of comments"
-        :key="index"
-        :comment="comment"
-      ></comments>
-    </ul>
-    <user-modal v-if="showModal" @close="showModal = false"></user-modal>
   </div>
 </template>
 
@@ -25,10 +28,12 @@ export default {
   components: {
     Comments: () => import('@/components/Comments.vue'),
     UserModal: () => import('@/components/UserModal.vue'),
+    Loader: () => import('@/components/Loader.vue'),
   },
   data() {
     return {
       showModal: false,
+      loading: false,
     }
   },
   computed: {
@@ -39,11 +44,19 @@ export default {
     }),
   },
   async mounted() {
+    this.loading = true
     const { id } = this.$route.params
 
     await this.$store.dispatch('getPostById', id)
     await this.$store.dispatch('getUserById', this.post.userId)
     await this.$store.dispatch('getCommentsForPost', id)
+
+    this.loading = false
+  },
+  methods: {
+    setModal(param) {
+      this.showModal = param
+    },
   },
 }
 </script>
@@ -56,17 +69,6 @@ export default {
 
   li {
     width: 90%;
-  }
-}
-.post-elem {
-  text-align: left;
-  border: 1px solid #000;
-  margin: 5px;
-  padding: 5px 10px;
-
-  a {
-    color: #000;
-    text-decoration: none;
   }
 }
 </style>
