@@ -7,7 +7,7 @@
           class="pagination-elem-inner pagination-prev"
           @click="$emit('prevPage')"
         >
-          <span class="text">Prev</span>
+          <span class="text">&lt;</span>
         </button>
       </li>
       <li
@@ -30,7 +30,7 @@
           class="pagination-elem-inner pagination-next"
           @click="$emit('nextPage')"
         >
-          <span class="text">Next</span>
+          <span class="text">&gt;</span>
         </button>
       </li>
     </ul>
@@ -79,5 +79,40 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .pagination-elem {
+    width: 30px;
+    height: 30px;
+    margin: 0 2px;
+
+    &.active,
+    &:hover {
+      .pagination-elem-inner {
+        background-color: #007bff;
+        border: 2px solid #007bff;
+        color: #fff;
+      }
+    }
+    .pagination-elem-inner {
+      border-radius: 50%;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      color: #007bff;
+      background-color: #fff;
+      border: 2px solid #dee2e6;
+      -webkit-transition: background-color 0.5s ease, border 0.5s ease,
+        color 0.5s ease;
+      -moz-transition: background-color 0.5s ease, border 0.5s ease,
+        color 0.5s ease;
+      -o-transition: background-color 0.5s ease, border 0.5s ease,
+        color 0.5s ease;
+      transition: background-color 0.5s ease, border 0.5s ease, color 0.5s ease;
+
+      &:disabled {
+        cursor: default;
+      }
+    }
+  }
 }
 </style>
